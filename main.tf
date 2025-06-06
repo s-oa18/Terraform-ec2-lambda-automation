@@ -59,6 +59,12 @@ resource "aws_lambda_function" "start_ec2" {
   runtime       = "python3.9"
   role          = aws_iam_role.lambda_exec.arn
   timeout       = 10
+
+  environment {
+    variables = {
+      INSTANCE_ID = aws_instance.lamda_ec2.id
+    }
+  }
 }
 
 # Upload stop Lambda
@@ -70,6 +76,12 @@ resource "aws_lambda_function" "stop_ec2" {
   runtime       = "python3.9"
   role          = aws_iam_role.lambda_exec.arn
   timeout       = 10
+
+  environment {
+    variables = {
+      INSTANCE_ID = aws_instance.lamda_ec2.id
+    }
+  }
 }
 
 #Upload start Lambda function file
