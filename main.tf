@@ -71,3 +71,17 @@ resource "aws_lambda_function" "stop_ec2" {
   role          = aws_iam_role.lambda_exec.arn
   timeout       = 10
 }
+
+#Upload start Lambda function file
+resource "aws_s3_object" "start_lambda" {
+  bucket = aws_s3_bucket.lambda_bucket.id
+  key    = "start_ec2.zip"
+  source = "${path.module}/lambda/start_ec2.zip"
+}
+
+# Upload Stop Lambda function file
+resource "aws_s3_object" "stop_lambda" {
+  bucket = aws_s3_bucket.lambda_bucket.id
+  key    = "stop_ec2.zip"
+  source = "${path.module}/lambda/stop_ec2.zip"
+}
