@@ -110,19 +110,19 @@ resource "aws_cloudwatch_event_rule" "stop_event" {
   schedule_expression = "cron(0 17 * * ? *)" # 5:00 PM UTC
 }
 
-# # Trigger lambda start function (Event targets)
-# resource "aws_cloudwatch_event_target" "start_lambda_trigger" {
-#   rule      = aws_cloudwatch_event_rule.start_event.name
-#   target_id = "StartEC2Target"
-#   arn       = aws_lambda_function.start_ec2.arn
-# }
+# Trigger lambda start function (Event targets)
+resource "aws_cloudwatch_event_target" "start_lambda_trigger" {
+  rule      = aws_cloudwatch_event_rule.start_event.name
+  target_id = "StartEC2Target"
+  arn       = aws_lambda_function.start_ec2.arn
+}
 
-# # Trigger lambda stop function (Event targets)
-# resource "aws_cloudwatch_event_target" "stop_lambda_trigger" {
-#   rule      = aws_cloudwatch_event_rule.stop_event.name
-#   target_id = "StopEC2Target"
-#   arn       = aws_lambda_function.stop_ec2.arn
-# }
+# Trigger lambda stop function (Event targets)
+resource "aws_cloudwatch_event_target" "stop_lambda_trigger" {
+  rule      = aws_cloudwatch_event_rule.stop_event.name
+  target_id = "StopEC2Target"
+  arn       = aws_lambda_function.stop_ec2.arn
+}
 
 # # Grant CloudWatch events permission to invoke start function
 # resource "aws_lambda_permission" "allow_cloudwatch_start" {
