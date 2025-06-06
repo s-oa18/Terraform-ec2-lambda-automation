@@ -39,3 +39,35 @@ resource "aws_instance" "lamda_ec2" {
     Name = "AutoEC2"
   }
 }
+
+# Create s3 bucket to store lambda function
+resource "aws_s3_bucket" "lambda_bucket" {
+  bucket = "ec2-lambda-functions-bucket-${random_id.suffix.hex}"
+  force_destroy = true
+}
+
+resource "random_id" "suffix" {
+  byte_length = 4
+}
+
+# Upload start Lambda
+resource "aws_lambda_function" "start_ec2" {
+  function_name = "StartEC2Instance"
+  s3_bucket     = aws_s3_bucket.lambda_bucket.id
+  s3_key        = aws_s3_object.start_lambda.key
+  handler       = "start_ec2.lambda_handler"
+  runtime       = "python3.9"
+  role          = aws_iam_role.lambda_exec.arn
+  timeout       = 10
+}
+
+# Upload stop Lambda
+resource "aws_lambda_function" "stop_ec2" {
+  function_name = "StopEC2Instance"
+  s3_bucket     = aws_s3_bucket.lambda_bucket.id
+  s3_key        = aws_s3_object.stop_lambda.key
+  handler       = "stop_ec2.lambda_handler"
+  runtime       = "python3.9"
+  role          = aws_iam_role.lambda_exec.arn
+  timeout       = 10
+}
