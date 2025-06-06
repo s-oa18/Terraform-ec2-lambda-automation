@@ -124,20 +124,20 @@ resource "aws_cloudwatch_event_target" "stop_lambda_trigger" {
   arn       = aws_lambda_function.stop_ec2.arn
 }
 
-# # Grant CloudWatch events permission to invoke start function
-# resource "aws_lambda_permission" "allow_cloudwatch_start" {
-#   statement_id  = "AllowExecutionFromCloudWatchStart"
-#   action        = "lambda:InvokeFunction"
-#   function_name = aws_lambda_function.start_ec2.function_name
-#   principal     = "events.amazonaws.com"
-#   source_arn    = aws_cloudwatch_event_rule.start_event.arn
-# }
+# Grant CloudWatch events permission to invoke start function
+resource "aws_lambda_permission" "allow_cloudwatch_start" {
+  statement_id  = "AllowExecutionFromCloudWatchStart"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.start_ec2.function_name
+  principal     = "events.amazonaws.com"
+  source_arn    = aws_cloudwatch_event_rule.start_event.arn
+}
 
-# # Grant CloudWatch events permission to invoke stop function
-# resource "aws_lambda_permission" "allow_cloudwatch_stop" {
-#   statement_id  = "AllowExecutionFromCloudWatchStop"
-#   action        = "lambda:InvokeFunction"
-#   function_name = aws_lambda_function.stop_ec2.function_name
-#   principal     = "events.amazonaws.com"
-#   source_arn    = aws_cloudwatch_event_rule.stop_event.arn
-# }
+# Grant CloudWatch events permission to invoke stop function
+resource "aws_lambda_permission" "allow_cloudwatch_stop" {
+  statement_id  = "AllowExecutionFromCloudWatchStop"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.stop_ec2.function_name
+  principal     = "events.amazonaws.com"
+  source_arn    = aws_cloudwatch_event_rule.stop_event.arn
+}
