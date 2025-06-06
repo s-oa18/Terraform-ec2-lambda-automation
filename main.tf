@@ -97,3 +97,47 @@ resource "aws_s3_object" "stop_lambda" {
   key    = "stop_ec2.zip"
   source = "${path.module}/lambda/stop_ec2.zip"
 }
+
+# Configure CloudWatch Start event (Schedule rule)
+resource "aws_cloudwatch_event_rule" "start_event" {
+  name                = "StartEC2Daily"
+  schedule_expression = "cron(0 9 * * ? *)" # 9:00 AM UTC
+}
+
+# Configure CloudWatch stop event (Schedule rule)
+resource "aws_cloudwatch_event_rule" "stop_event" {
+  name                = "StopEC2Daily"
+  schedule_expression = "cron(0 17 * * ? *)" # 5:00 PM UTC
+}
+
+# # Trigger lambda start function (Event targets)
+# resource "aws_cloudwatch_event_target" "start_lambda_trigger" {
+#   rule      = aws_cloudwatch_event_rule.start_event.name
+#   target_id = "StartEC2Target"
+#   arn       = aws_lambda_function.start_ec2.arn
+# }
+
+# # Trigger lambda stop function (Event targets)
+# resource "aws_cloudwatch_event_target" "stop_lambda_trigger" {
+#   rule      = aws_cloudwatch_event_rule.stop_event.name
+#   target_id = "StopEC2Target"
+#   arn       = aws_lambda_function.stop_ec2.arn
+# }
+
+# # Grant CloudWatch events permission to invoke start function
+# resource "aws_lambda_permission" "allow_cloudwatch_start" {
+#   statement_id  = "AllowExecutionFromCloudWatchStart"
+#   action        = "lambda:InvokeFunction"
+#   function_name = aws_lambda_function.start_ec2.function_name
+#   principal     = "events.amazonaws.com"
+#   source_arn    = aws_cloudwatch_event_rule.start_event.arn
+# }
+
+# # Grant CloudWatch events permission to invoke stop function
+# resource "aws_lambda_permission" "allow_cloudwatch_stop" {
+#   statement_id  = "AllowExecutionFromCloudWatchStop"
+#   action        = "lambda:InvokeFunction"
+#   function_name = aws_lambda_function.stop_ec2.function_name
+#   principal     = "events.amazonaws.com"
+#   source_arn    = aws_cloudwatch_event_rule.stop_event.arn
+# }
