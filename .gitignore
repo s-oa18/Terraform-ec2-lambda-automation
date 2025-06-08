@@ -19,3 +19,5 @@ crash.log
 
 .terraform.lock.hcl
 *.zip
+start-output.json
+stop-output.json
