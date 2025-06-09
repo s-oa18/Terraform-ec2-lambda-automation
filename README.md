@@ -21,7 +21,7 @@ This is ideal for optimizing costs in non-production environments by ensuring EC
 
 ---
 
-## 🧰 Tech Stack
+## Tech Stack
 
 - **Terraform** for IaC
 - **AWS Lambda (Python 3.10) using Boto3**
